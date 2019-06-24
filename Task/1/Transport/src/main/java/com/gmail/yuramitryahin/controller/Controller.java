@@ -13,34 +13,53 @@ import java.util.Scanner;
 import static com.gmail.yuramitryahin.view.MessageText.*;
 
 public class Controller {
-     Model mode;
+     Model model;
      View view;
 
-    public Controller(Model mode, View view) {
-        this.mode = mode;
+    /**
+     * Constructor create a new object
+     * @param model
+     * @param view
+     */
+    public Controller(Model model, View view) {
+        this.model = model;
         this.view = view;
     }
 
+    /**
+     * Function which start all processes
+     */
     public void processUser() {
         Scanner sc = new Scanner(System.in);
         Train train = new Train();
         addLocomotive(sc,train);
         addCarriage(sc, train);
 
-        System.out.println(train);
-        System.out.println(sort(train.getPassengerCarriages()));
-        System.out.println(findCarriageOfNumPass(sc, train));
+        view.printMessage(train.toString());
+        view.printMessage("All passenger = "+ train.numPassengers()+  "\n All larges = "+ train.numLuggages());
+        view.printMessage(sort(train.getPassengerCarriages()).toString());
+        view.printMessage(findCarriageOfNumPass(sc, train).toString());
 
     }
 
+    /**
+     * Function to add locomotive in train
+     * @param sc
+     * @param train
+     */
     public void addLocomotive(Scanner sc, Train train){
         CreateTrain createTrain = new CreateTrain(sc, view);
         train.addLocomotive(createTrain.inputTrain());
     }
 
+    /**
+     * Function to add carriage in train
+     * @param sc
+     * @param train
+     */
     public void  addCarriage(Scanner sc, Train train){
        train.addPassengerCarriages(chooseCarriage(sc));
-        view.printMessage(CONTINUE_INPUT_CARRIAGE);
+        view.printStringInput(CONTINUE_INPUT_CARRIAGE);
        while (true){
            String line = sc.nextLine();
            if(line.equals("y")){
@@ -48,32 +67,49 @@ public class Controller {
            }else if (line.equals("n")){
                break;
            }else{
-               view.printMessage(WRONG_VALUES);
-               view.printMessage(CONTINUE_INPUT_CARRIAGE);
+               view.printStringInput(WRONG_VALUES);
+               view.printStringInput(CONTINUE_INPUT_CARRIAGE);
            }
 
        }
     }
 
+    /**
+     * Function to select the type of Carriage
+     * @param sc
+     * @return
+     */
     public PassengerCarriage chooseCarriage(Scanner sc){
         CreateCarriage createCarriage = new CreateCarriage(view, sc);
         return createCarriage.inputCarriage();
     }
 
+    /**
+     * Function to search the carriage by the number of passengers
+     * @param sc
+     * @param train
+     * @return
+     */
     public List<PassengerCarriage> findCarriageOfNumPass(Scanner sc, Train train){
-        view.printMessage(INPUT_MIN_VALUE);
+        view.printStringInput(INPUT_MIN_VALUE);
         while (true){
             int min=sc.nextInt();
             if(min<0){
-                view.printMessage(WRONG_VALUES,INPUT_MIN_VALUE);
+                view.printStringInput(WRONG_VALUES);
+                view.printStringInput(INPUT_MIN_VALUE);
             }else{
-                view.printMessage(INPUT_MAX_VALUE);
+                view.printStringInput(INPUT_MAX_VALUE);
                 int max = sc.nextInt();
                 return train.findCarriage(min,max);
             }
         }
     }
 
+    /**
+     * Function to sort the list of carriages for comfort
+     * @param list
+     * @return
+     */
     public ArrayList<PassengerCarriage> sort(List<PassengerCarriage> list){
 
         PassengerCarriage[]array=new PassengerCarriage[list.size()];

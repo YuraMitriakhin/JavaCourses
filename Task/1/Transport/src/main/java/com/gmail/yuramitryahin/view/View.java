@@ -5,15 +5,19 @@ import java.util.ResourceBundle;
 
 public class View {
     static String MESSAGES_BUNDLE_NAME = "messages";
-  /*  public static final ResourceBundle bundle =
+   public static final ResourceBundle bundle =
             ResourceBundle.getBundle(
                     MESSAGES_BUNDLE_NAME,
-                    //new Locale("ua", "UA"));  // Ukrainian
+                   // new Locale("ua", "UA"));  // Ukrainian
                     new Locale("en"));        // English
 
-*/
-    public void printMessage(String message){
+
+    public void  printMessage(String message){
         System.out.println(message);
+    }
+
+    public void  printMessageWithoutSeparator(String message){
+        System.out.print(message);
     }
 
     public void printMessage(String... message){
@@ -23,4 +27,11 @@ public class View {
         }
         System.out.println(concatString.toString());
     }
+
+    public void printStringInput(String message) {
+        printMessage(
+                bundle.getString(message));
+    }
+
+
 }

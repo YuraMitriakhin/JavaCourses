@@ -39,7 +39,7 @@ public class Train {
     public List<PassengerCarriage> findCarriage(int min, int max){
         List<PassengerCarriage>list=new ArrayList<>();
         for (PassengerCarriage p: passengerCarriages) {
-            if(p.getNumPassengers()<max&&p.getNumPassengers()>=min){
+            if(p.getNumPassengers()<=max&&p.getNumPassengers()>=min){
                 list.add(p);
             }
         }
